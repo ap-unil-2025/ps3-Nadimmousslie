@@ -36,8 +36,8 @@ def analyze_numbers(numbers):
     - average: average value
     - minimum: smallest number
     - maximum: largest number
-    - even_count: count of even numbers
-    - odd_count: count of odd numbers
+    - even_count: count of even numbers (only integers considered)
+    - odd_count: count of odd numbers (only integers considered)
 
     Args:
         numbers (list): List of numbers to analyze
@@ -58,8 +58,11 @@ def analyze_numbers(numbers):
     even_count = 0
     odd_count = 0
     for n in numbers:
-        if n.is_integer():  # éviter les erreurs avec les floats
-            if int(n) % 2 == 0:
+        # On ne compte pair/impair que pour les entiers (ex: 2.0 compte, 2.3 non)
+        is_int_like = isinstance(n, int) or (isinstance(n, float) and n.is_integer())
+        if is_int_like:
+            val = int(n)
+            if val % 2 == 0:
                 even_count += 1
             else:
                 odd_count += 1
@@ -88,8 +91,8 @@ def display_analysis(analysis):
     print(f"Average: {analysis['average']:.2f}")
     print(f"Minimum: {analysis['minimum']}")
     print(f"Maximum: {analysis['maximum']}")
-    print(f"Even count: {analysis['even_count']}")
-    print(f"Odd count: {analysis['odd_count']}")
+    print(f"Even count (integers only): {analysis['even_count']}")
+    print(f"Odd count  (integers only): {analysis['odd_count']}")
 
 
 def main():
